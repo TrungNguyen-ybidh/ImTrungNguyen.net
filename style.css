@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black; 
+}
+
+nav {
+    width: 100%;
+    height: 10vh; 
+    position: sticky;
+    top: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10; 
+}
+
+.nav-container {
+    display: flex; 
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-container .logo span {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.hamburg,
+.cancel {
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: white;
+    font-size: clamp(2.5rem, 0.5rem + 5vw, 3rem);
+    display: none;
+}
+
+.nav-container .links {
+    display: flex;
+}
+
+.nav-container .links a {
+    font-size: 1.2rem; /* Fixed '1.2 rem' to '1.2rem' */
+    color: white;
+    margin: 0 20px;
+    text-decoration: none;
+    font-weight: 550;
+    transition: 0.3s linear;
+}
+
+.nav-container .links a:hover {
+    color: rgb(159, 18, 18);
+    border-bottom: 2px solid rgb(159, 18, 18);
+}
+
+.dropdown {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    transform: translateY(-400px);
+    width: 100%;
+    height: auto;
+    backdrop-filter: blur(5px) brightness(0.8); /* Fixed backdrop-filter syntax */
+    box-shadow: 0 0 20px black;
+    transition: 0.2s linear;
+}
+
+.dropdown a {
+    display: flex;
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s linear;
+}
+
+.dropdown a:hover {
+    background-color: rgb(159, 18, 18);
+}
+
+.section {
+    width: 100%;
+    height: 90vh;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.main-container .image {
+    width: 500px;
+    height: 80vh; /* Fixed '80 vh' to '80vh' */
+    overflow: hidden;
+}
+
+.main-container .image img {
+    width: 100%;
+}
+
+.main-container .image img:hover {
+    animation: animate 1.5s ease-in-out infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: scale(1); /* Changed 'scale' to 'transform: scale' */
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.main-container .content {
+    color: white;
+    width: 40%;
+    min-height: 100px;
+}
+
+.content h1 {
+    font-size: clamp(1rem, 1rem + 5vw, 1.8rem);
+}
+
+.content h1 span {
+    font-weight: 700;
+    text-shadow: 0 0 10px rgb(159, 18, 18);
+    color: white;
+}
+
+.typing-text {
+    font-size: clamp(1rem, 1rem + 5vw, 2.5rem);
+    font-weight: 700;
+    position: relative;
+}
+
+.typing-text span::before {
+    content: "";
+    color: rgb(159, 18, 18);
+    animation: words 20s infinite;
+}
+
+.typing-text span::after {
+    content: "";
+    background-color: black;
+    position: absolute;
+    width: calc(100% + 8px);
+    height: 100%;
+    border-left: 3px solid black; /* Fixed '3 px' to '3px' */
+    right: -8px; /* Added 'px' to the value */
+    animation: cursor 0.5s infinite;
+}
+
+@keyframes cursor {
+    to {
+        border-left: 3px solid white;
+    }
+}
+
+@keyframes words {
+    0%, 20% {
+        content: "Student";
+    }
+    21%, 40% {
+        content: "Programmer";
+    }
+    41%, 60% {
+        content: "Developer";
+    }
+    61%, 80% { /* Fixed percentage from '48%' to '80%' */
+        content: "Data Analyzer";
+    }
+    81%, 100% {
+        content: "Athlete"; /* Fixed spelling of 'Athelete' to 'Athlete' */
+    }
+}
+
+.content p {
+    font-size: clamp(0.4rem, 0.2rem + 9vw, 1rem);
+    margin: 10px; /* Fixed '10 px' to '10px' */
+}
