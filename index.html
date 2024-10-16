@@ -59,8 +59,12 @@
     <!--Skill Section Start-->
 <section class="skills" id="skills">
     <div class="content">
-        <div class="title"><span>My Skills</span></div>
-        <div class="skills-details">
+        <div class="title" onclick="toggleDropdown('skills-content', 'skills-icon')">
+            <span>My Skills</span>
+            <i class="fa-solid fa-chevron-down" id="skills-icon"></i>
+        </div>
+        <div class="dropdown-content" id="skills-content">
+            <div class="skills-details">
             <div class="text">
                 <div class="topic">
                     Skills Reflect Our Knowledge
@@ -100,8 +104,12 @@
     <!--Service Section Start-->
 <section class="services" id="projects">
     <div class="content">
-        <div class="title"><span>My Projects</span></div>
-        <div class="boxes">
+        <div class="title" onclick="toggleDropdown('projects-content', 'projects-icon')">
+            <span>My Projects</span>
+            <i class="fa-solid fa-chevron-down" id="projects-icon"></i>
+        </div>
+        <div class="dropdown-content" id="projects-content">
+            <div class="boxes">
             <div class="box">
                 <div class="icon">
                     <i class="fas fa-desktop"></i>
@@ -147,45 +155,52 @@
         </div>
     </div>
 </section>
-<!--About Section Start-->
-<section class="about" id="extracurriculars">
+
+<!-- Extracurriculars Section Start -->
+<section class="extracurriculars" id="extracurriculars">
     <div class="content">
-        <div class="title"><span>Extracurriculars</span></div>
-        <div class="about-details">
-            <div class="left">
-                <img src="main.png" alt="Profile Picture"/>
-            </div>
-            <div class="right">
-                <div class="topic">Data Is My Passion</div>
-                <p>
-                    I'm currently pursuing a Bachelor's degree in Data Science and Computer Engineering at Northeastern University. I specialize in analytical thinking, problem-solving with Python, and Microsoft Office 365. I am fluent in Vietnamese and English. I'm motivated to apply my abilities in dynamic contexts and contribute to distinctive approaches.
-                </p>
-                <div class="button">
-                    <button>Download CV</button>
+        <div class="title" onclick="toggleDropdown('extracurriculars-content', 'extracurriculars-icon')">
+            <span>Extracurriculars</span>
+            <i class="fa-solid fa-chevron-down" id="extracurriculars-icon"></i>
+        </div>
+        <div class="dropdown-content" id="extracurriculars-content">
+            <div class="about-details">
+                <div class="left">
+                    <img src="main.png" alt="Extracurricular Image"/>
+                </div>
+                <div class="right">
+                    <div class="topic">Fencing</div>
+                    <p>
+                        I actively participate in various extracurricular activities such as Fencing. These experiences have helped me develop leadership, teamwork, 
+                        and problem-solving skills. I enjoy applying my knowledge in practical 
+                        settings and collaborating with others to achieve common goals.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-
     <!-- Contact Me Section Start-->
-     <section class="contact" id="contacts">
-        <div class="content">
-            <div class="title">
-                <span>Contact Me</span>
-            </div>
+<section class="contact" id="contacts">
+    <div class="content">
+        <div class="title" onclick="toggleDropdown('contacts-content', 'contacts-icon')">
+            <span>Contact Me</span>
+            <i class="fa-solid fa-chevron-down" id="contacts-icon"></i>
+        </div>
+        <div class="dropdown-content" id="contacts-content">
             <div class="text">
-                <div class="topic">Have Any Question?</div>
-                <p>I'm currently pursuing a Bachelor's degree in Data Science</p>
-                <div class="button">
+            <div class="topic">Have Any Question?</div>
+            <p>I'm currently pursuing a Bachelor's degree in Data Science</p>
+            <div class="button">
+                <a href="mailto:thanhtrungdn2004@gmail.com" target="_blank">
                     <button>Let's Chat</button>
-                </div>
+                </a>
             </div>
         </div>
-     </section>
+    </div>
+</section>
      
-
      <!-- Fotter Section Start-->
      <footer>
         <div class="text">
