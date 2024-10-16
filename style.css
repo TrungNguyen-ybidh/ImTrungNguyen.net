@@ -119,17 +119,18 @@ html, body {
     height: 100%;
 }
 
+/* Dropdown menu styles */
 .dropdown {
-    z-index: 100;
     position: absolute;
     top: 0;
-    transform: translateY(-500px);
+    right: 0;
     width: 100%;
-    height: auto;
-    backdrop-filter: blur(4px) brightness(40%); 
-    box-shadow: 0 0 20px black;
-    transition: 0.2s linear;
+    background-color: #fff;
+    transform: translateY(-100%); /* Initially hide the dropdown */
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
 }
+
 
 .dropdown a {
     display: flex;
@@ -321,6 +322,7 @@ section .main-container {
     color: rgb(159, 18, 18);
     background-color: transparent;
     box-shadow: 0 0 40px 5px rgb(159, 18, 18);
+    cursor: pointer;
 }
 
 @media (max-width:884px){
