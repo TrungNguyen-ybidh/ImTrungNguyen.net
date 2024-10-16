@@ -46,3 +46,21 @@ document.querySelectorAll('.links .link a, .dropdown a').forEach(link => {
         dropdown.style.transform = "translateY(-100%)"; // Hide dropdown after clicking a link
     });
 });
+
+function toggleDropdown(contentId, iconId) {
+    const dropdownContent = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+
+    // Toggle the active class for smooth transition
+    dropdownContent.classList.toggle('active');
+    icon.classList.toggle('rotate');
+
+    // Dynamically set the max-height based on the content height for smooth expansion
+    if (dropdownContent.classList.contains('active')) {
+        dropdownContent.style.maxHeight = dropdownContent.scrollHeight + "px";
+    } else {
+        dropdownContent.style.maxHeight = "0";
+    }
+}
+
+
