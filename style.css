@@ -608,3 +608,38 @@ fotter .text span a{
         margin-top: 15px;
     }
 }
+/* Style for all dropdown contents */
+.dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+    padding: 0;
+}
+
+/* Style when dropdown is active */
+.dropdown-content.active {
+    padding: 20px 0; /* Adds padding when expanded */
+    max-height: 1000px; /* Large enough to fit the content */
+}
+
+/* Cursor style when hovering over the title */
+.title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.3s;
+}
+
+.title:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 10px white);
+}
+
+/* Rotate the icon when the dropdown is open */
+.title i.rotate {
+    transform: rotate(180deg);
+    transition: transform 0.3s;
+}
+
+
