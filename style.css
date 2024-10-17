@@ -642,4 +642,82 @@ fotter .text span a{
     transition: transform 0.3s;
 }
 
+/* Extracurriculars Section Styling */
+.extracurriculars .title {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.extracurriculars .dropdown-content {
+    display: none;
+    padding: 20px;
+    background-color: rgba(183, 75, 75, 0.7); /* Semi-transparent dark red background */
+    border-radius: 10px;
+}
+
+.extracurriculars .dropdown-content .extracurricular-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.extracurriculars .box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Ensure that content wraps properly if space is limited */
+}
+
+.extracurriculars .box img {
+    width: 100px; /* Adjust image size to be smaller */
+    height: auto;
+    border-radius: 8px;
+}
+
+.extracurriculars .box h3 {
+    font-size: 20px;
+    color: white; /* Change heading text to white */
+    margin: 0;
+}
+
+.extracurriculars .box p {
+    font-size: 16px;
+    color: white; /* Change paragraph text to white */
+    margin: 0;
+}
+
+/* Flexbox fix: Ensure text content takes up available space */
+.extracurriculars .box .text-content {
+    flex: 1; /* This allows the text content to take up the remaining space */
+}
+
+/* Toggle Dropdown */
+.dropdown-content.active {
+    display: block;
+}
+
+/* Style for the background container */
+#background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1; /* Ensure it is behind other content */
+    overflow: hidden; /* Prevent overflow of objects */
+}
+
+/* Style for larger, semi-transparent hexagon-shaped moving objects */
+.moving-object {
+    position: absolute;
+    width: 150px; /* Equal side length */
+    height: 150px; /* Same as width to make it square-like */
+    background-color: rgba(255, 0, 0, 0.3); /* Semi-transparent red color, 0.3 opacity */
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); /* Hexagon shape with equal sides */
+    filter: blur(1px); /* Slight blur for smoother look */
+    transition: transform 0.5s linear; /* Smooth movement */
+    transform: rotate(90deg); /* Rotate the hexagon by 90 degrees */
+}
+
+
 
