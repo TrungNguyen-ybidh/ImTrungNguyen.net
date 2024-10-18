@@ -53,17 +53,20 @@ function toggleDropdown(contentId, iconId) {
 
     // Toggle the active class for smooth transition
     dropdownContent.classList.toggle('active');
-
-    
     icon.classList.toggle('rotate');
 
     // Dynamically set the max-height based on the content height for smooth expansion
     if (dropdownContent.classList.contains('active')) {
         dropdownContent.style.maxHeight = dropdownContent.scrollHeight + "px";
     } else {
+        // Use a timeout to let the animation complete before removing maxHeight
         dropdownContent.style.maxHeight = "0";
+        setTimeout(() => {
+            dropdownContent.style.maxHeight = null; // Clear inline style
+        }, 300); // Match this duration with your CSS transition time
     }
 }
+
 
  // Function to create random moving hexagon objects
  function createRandomObject() {
