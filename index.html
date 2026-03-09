@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trung Nguyen — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    html, body { height: 100%; overflow: hidden; }
+
+    .top-logo {
+      position: fixed; top: 2.2rem; left: 3rem; z-index: 101;
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--text-primary);
+    }
+    .top-logo span { color: var(--accent); }
+
+    .theme-toggle { top: 1.5rem; right: 3rem; }
+    [data-theme="light"] .theme-toggle { top: 1.5rem; }
+
+    /* ===== MAIN LAYOUT ===== */
+    .home-layout {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      height: 100vh;
+      padding: 4rem 3rem 2.5rem;
+      gap: 6rem;
+    }
+
+    /* ===== LEFT PANEL — IDENTITY ===== */
+    .panel-left {
+      width: 600px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2rem;
+      animation: panelIn 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s backwards;
+    }
+
+    /* Greeting */
+    .home-greeting {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.4s forwards;
+    }
+
+    /* Name */
+    .home-name {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+    }
+
+    .home-name .first {
+      display: block;
+      overflow: hidden;
+    }
+
+    .home-name .last {
+      display: block;
+      color: var(--accent);
+      font-style: italic;
+      overflow: hidden;
+    }
+
+    .home-name .first span,
+    .home-name .last span {
+      display: inline-block;
+      opacity: 0;
+      animation: nameSlide 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .home-name .first span { animation-delay: 0.5s; }
+    .home-name .last span { animation-delay: 0.65s; }
+
+    /* Tagline */
+    .home-tagline {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.85s forwards;
+    }
+
+    .home-tagline em {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Mini code block */
+    .home-code {
+      background: rgba(13, 13, 18, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 1.1s forwards;
+    }
+
+    .home-code-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .home-code-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .home-code-dots span {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+
+    .home-code-dots .d-r { background: #ff5f57; }
+    .home-code-dots .d-y { background: #febc2e; }
+    .home-code-dots .d-g { background: #28c840; }
+
+    .home-code-file {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    .home-code-body {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      padding: 1.1rem 1.4rem;
+      color: var(--text-secondary);
+      white-space: pre;
+    }
+
+    .c-kw { color: #c9f06b; }
+    .c-cls { color: #7ec8f0; font-weight: 600; }
+    .c-fn { color: #e8c87a; }
+    .c-s { color: #c0b8a8; }
+    .c-str { color: #8aad3a; }
+    .c-num { color: #f0a070; }
+    .c-cm { color: #555; font-style: italic; }
+    .c-op { color: #888; }
+
+    /* Quick stats under code */
+    .home-stats {
+      display: flex;
+      gap: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 1.35s forwards;
+    }
+
+    .home-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .home-stat-num {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .home-stat-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ===== RIGHT PANEL — NAV TERMINAL ===== */
+    .panel-right {
+      width: 300px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      animation: panelIn 0.9s cubic-bezier(0.16,1,0.3,1) 0.4s backwards;
+    }
+
+    .nav-terminal {
+      background: rgba(13, 13, 18, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      width: 100%;
+      transition: all 0.4s;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+
+    .nav-terminal:hover {
+      border-color: rgba(201,240,107,0.15);
+      box-shadow: 0 12px 50px rgba(0,0,0,0.4), 0 0 20px rgba(201,240,107,0.03);
+    }
+
+    .nav-terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.55rem 1rem;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-terminal-body {
+      padding: 1.2rem 1.4rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      white-space: pre;
+    }
+
+    .sh-prompt { color: var(--accent); }
+    .sh-cmd { color: var(--text-secondary); }
+    .sh-str { color: #8aad3a; }
+    .sh-stat { color: var(--accent); font-weight: 600; }
+    .sh-out { color: var(--text-muted); }
+    .sh-dim { color: #444; font-size: 0.68rem; }
+    .sh-divider { display: block; height: 1px; background: var(--border); margin: 0.5rem 0; }
+
+    /* Nav links */
+    .nav-item {
+      display: block;
+      text-decoration: none;
+      color: var(--text-muted);
+      padding: 0.3rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover {
+      color: var(--accent);
+      padding-left: 0.5rem;
+    }
+
+    .nav-item .arrow {
+      color: var(--accent-dim);
+      margin-right: 0.4rem;
+    }
+
+    .nav-item:hover .arrow {
+      color: var(--accent);
+    }
+
+    /* Typing animation for nav lines */
+    .sh-line {
+      display: block;
+      opacity: 0;
+      animation: navType 0.05s ease forwards;
+    }
+
+    .sh-line:nth-child(1) { animation-delay: 0.6s; }
+    .sh-line:nth-child(2) { animation-delay: 0.8s; }
+    .sh-line:nth-child(3) { animation-delay: 1.0s; }
+    .sh-line:nth-child(4) { animation-delay: 1.15s; }
+    .sh-line:nth-child(5) { animation-delay: 1.25s; }
+    .sh-line:nth-child(6) { animation-delay: 1.35s; }
+    .sh-line:nth-child(7) { animation-delay: 1.45s; }
+    .sh-line:nth-child(8) { animation-delay: 1.55s; }
+    .sh-line:nth-child(9) { animation-delay: 1.65s; }
+    .sh-line:nth-child(10) { animation-delay: 1.85s; }
+    .sh-line:nth-child(11) { animation-delay: 2.05s; }
+    .sh-line:nth-child(12) { animation-delay: 2.2s; }
+    .sh-line:nth-child(13) { animation-delay: 2.35s; }
+    .sh-line:nth-child(14) { animation-delay: 2.55s; }
+    .sh-line:nth-child(15) { animation-delay: 2.7s; }
+    .sh-line:nth-child(16) { animation-delay: 2.8s; }
+    .sh-line:nth-child(17) { animation-delay: 2.9s; }
+    .sh-line:nth-child(18) { animation-delay: 3.1s; }
+    .sh-line:nth-child(19) { animation-delay: 3.3s; }
+    .sh-line:nth-child(20) { animation-delay: 3.5s; }
+
+    @keyframes navType { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Blinking cursor */
+    .cursor {
+      display: inline-block;
+      width: 7px; height: 13px;
+      background: var(--accent);
+      animation: cursorShow 0.01s ease 3.6s forwards, blink 1s step-end 3.6s infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+      opacity: 0;
+    }
+
+    @keyframes cursorShow { to { opacity: 1; } }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes nameSlide { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== LIGHT THEME ===== */
+    [data-theme="light"] .home-code { background: rgba(255,255,255,0.85); }
+    [data-theme="light"] .home-code-header { background: rgba(0,0,0,0.03); }
+    [data-theme="light"] .nav-terminal { background: rgba(255,255,255,0.88); box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
+    [data-theme="light"] .nav-terminal-header { background: rgba(0,0,0,0.03); }
+    [data-theme="light"] .c-kw { color: #4a7515; }
+    [data-theme="light"] .c-cls { color: #2a6a9a; }
+    [data-theme="light"] .c-fn { color: #a08030; }
+    [data-theme="light"] .c-str { color: #4a7515; }
+    [data-theme="light"] .c-num { color: #c06030; }
+    [data-theme="light"] .c-cm { color: #999; }
+    [data-theme="light"] .sh-prompt { color: #4a7515; }
+    [data-theme="light"] .cursor { background: #4a7515; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .home-layout {
+        flex-direction: column;
+        padding: 5rem 1.5rem 2rem;
+        gap: 1.5rem;
+        align-items: center;
+        overflow-y: auto;
+      }
+      .panel-left, .panel-right { width: 100%; max-width: 500px; }
+      .panel-right { align-items: flex-start; }
+      .home-name { font-size: 2.5rem; }
+      .home-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+<div class="bg-blob bg-blob-3"></div>
+<div class="bg-blob bg-blob-4"></div>
+<canvas id="particleCanvas"></canvas>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<!-- Logo -->
+<div class="top-logo">T<span>.</span>N</div>
+
+<!-- Main layout -->
+<div class="home-layout">
+
+  <!-- LEFT: Identity -->
+  <div class="panel-left">
+
+    <div class="home-greeting">// welcome to my portfolio</div>
+
+    <h1 class="home-name">
+      <div class="first"><span>Trung</span></div>
+      <div class="last"><span>Nguyen</span></div>
+    </h1>
+
+    <p class="home-tagline">
+      Data Science student at <em>Northeastern University</em> with a focus on <em>quantitative finance</em>, algorithmic systems, and turning data into decisions.
+    </p>
+
+    <div class="home-code">
+      <div class="home-code-header">
+        <div class="home-code-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
+        <span class="home-code-file">life_plan.py</span>
+      </div>
+      <div class="home-code-body"><span class="c-kw">def</span> <span class="c-fn">life_plan</span>(<span class="c-s">self</span>):
+    <span class="c-kw">while</span> <span class="c-s">self</span>.age <span class="c-op">&lt;</span> <span class="c-num">45</span>:
+        <span class="c-s">self</span>.learn()
+        <span class="c-s">self</span>.build()
+        <span class="c-s">self</span>.iterate()
+        <span class="c-s">self</span>.net_worth <span class="c-op">+=</span> <span class="c-s">self</span>.grind()
+        <span class="c-s">self</span>.age <span class="c-op">+=</span> <span class="c-num">1</span>
+        <span class="c-kw">if</span> <span class="c-s">self</span>.net_worth <span class="c-op">&gt;=</span> <span class="c-num">1_000_000_000</span>:
+            <span class="c-kw">return</span> <span class="c-str">"Mission complete."</span>
+    <span class="c-cm"># plan B</span>
+    <span class="c-kw">return</span> <span class="c-s">self</span>.marry_rich()</div>
+    </div>
+
+    <div class="home-stats">
+      <div class="home-stat">
+        <div class="home-stat-num">3x</div>
+        <div class="home-stat-label">Dean's List</div>
+      </div>
+      <div class="home-stat">
+        <div class="home-stat-num">10+</div>
+        <div class="home-stat-label">Projects</div>
+      </div>
+      <div class="home-stat">
+        <div class="home-stat-num">6</div>
+        <div class="home-stat-label">Experiences</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Nav terminal -->
+  <div class="panel-right">
+    <div class="nav-terminal">
+      <div class="nav-terminal-header">
+        <div class="home-code-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
+        <span class="home-code-file">navigate.sh</span>
+      </div>
+      <div class="nav-terminal-body"><span class="sh-line"><span class="sh-dim">Last login: today</span></span>
+<span class="sh-line"></span>
+<span class="sh-line"><span class="sh-prompt">$</span> <span class="sh-cmd">ls ~/portfolio/</span></span>
+<span class="sh-line"></span>
+<a href="about.html" class="nav-item sh-line"><span class="arrow">&gt;</span> About</a>
+<a href="experience.html" class="nav-item sh-line"><span class="arrow">&gt;</span> Experience</a>
+<a href="education.html" class="nav-item sh-line"><span class="arrow">&gt;</span> Education</a>
+<a href="projects.html" class="nav-item sh-line"><span class="arrow">&gt;</span> Projects</a>
+<a href="certificates.html" class="nav-item sh-line"><span class="arrow">&gt;</span> Certificates</a>
+<a href="contact.html" class="nav-item sh-line"><span class="arrow">&gt;</span> Contact</a>
+<span class="sh-line"><span class="sh-divider"></span></span>
+<span class="sh-line"><span class="sh-prompt">$</span> <span class="sh-cmd">echo $STATUS</span></span>
+<span class="sh-line"><span class="sh-str">"Open to opportunities"</span></span>
+<span class="sh-line"></span>
+<span class="sh-line"><span class="sh-prompt">$</span> <span class="sh-cmd">python3 life_plan.py</span></span>
+<span class="sh-line"><span class="sh-out">Running life_plan()...</span></span>
+<span class="sh-line"><span class="sh-out">Status: <span class="sh-stat">grinding</span></span></span>
+<span class="sh-line"></span>
+<span class="sh-line"><span class="sh-prompt">$</span> <span class="cursor"></span></span></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

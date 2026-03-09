@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Trung Nguyen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+<div class="bg-blob bg-blob-3"></div>
+<div class="bg-blob bg-blob-4"></div>
+<canvas id="particleCanvas"></canvas>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<!-- Navbar -->
+<nav class="top-nav">
+  <a href="index.html" class="top-nav-logo">Trung<span>.</span>N</a>
+  <div class="top-nav-links">
+    <a href="about.html">About</a>
+    <a href="experience.html">Experience</a>
+    <a href="education.html">Education</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="certificates.html">Certificates</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- Content -->
+<main class="page-content">
+  <div class="section-tag reveal">04 — Projects</div>
+  <h2 class="section-title reveal">Things I've built</h2>
+
+  <h3 class="projects-section-label reveal">Relevant Projects</h3>
+  <div class="projects-grid">
+    <div class="proj-card reveal">
+      <div class="proj-num">QUANT RESEARCH</div>
+      <div class="proj-title">Quant Research Bot</div>
+      <div class="proj-desc">An automated research bot designed to gather, analyze, and synthesize quantitative finance data — streamlining the research workflow for strategy development and market analysis.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Research</span>
+        <span class="tag">NLP</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/Quant-research-Bot" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">TRADING MODEL v1.6</div>
+      <div class="proj-title">Quant Trading Model V1.6</div>
+      <div class="proj-desc">The latest iteration of a systematic quantitative trading model, featuring refined signal generation, risk management logic, and backtesting capabilities built from the ground up.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Backtesting</span>
+        <span class="tag">Quant Finance</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/Quant_trading_modelV1.6" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">TRADING MODEL v1.5</div>
+      <div class="proj-title">Quant Trading Model V1.5</div>
+      <div class="proj-desc">An earlier version of the quant trading system exploring different strategy approaches, position sizing methods, and performance evaluation frameworks.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Algorithmic Trading</span>
+        <span class="tag">Analytics</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/Quant_Trading_model_v1.5" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">TRADING MODEL v1.0</div>
+      <div class="proj-title">Quant Trading Model V1.0</div>
+      <div class="proj-desc">The foundational version where it all started — a first-principles approach to building a quantitative trading strategy with basic signal logic and simulation.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Trading</span>
+        <span class="tag">Simulation</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/Quant-trading-model_v1.0" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+  </div>
+
+  <div class="projects-other-dropdown reveal" id="other-projects">
+    <div class="projects-other-header" onclick="this.parentElement.classList.toggle('expanded')">
+      <h3 class="projects-section-label">Other Projects</h3>
+      <div class="projects-other-toggle">
+        <span class="projects-other-count">4 projects</span>
+        <div class="edu-toggle-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="projects-other-content">
+      <div class="projects-grid">
+    <div class="proj-card reveal">
+      <div class="proj-num">FULL-STACK APP</div>
+      <div class="proj-title">StudyLink Project</div>
+      <div class="proj-desc">A collaborative full-stack application built for Northeastern's CS 3200 course — connecting students through shared study resources, scheduling, and course-based communities.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Full-Stack</span>
+        <span class="tag">Database</span>
+        <span class="tag">CS 3200</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/StudyLink-Project" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">AI / OPTIMIZATION</div>
+      <div class="proj-title">Nature-Inspired Computing</div>
+      <div class="proj-desc">Evolutionary computing algorithms applied to a real-world resource allocation problem — optimizing TA and lab assignments for Khoury College's large classes.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Evolutionary AI</span>
+        <span class="tag">Optimization</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/Nature-Inspired-Computing" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">DATA ANALYSIS</div>
+      <div class="proj-title">RateMyProfessor Analysis</div>
+      <div class="proj-desc">Data analysis of professor ratings at Northeastern University — examining average ratings, number of reviews, and difficulty levels across departments to uncover patterns.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Data Analysis</span>
+        <span class="tag">Visualization</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/RateMyProfessorAnalysis" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">DASHBOARD</div>
+      <div class="proj-title">Cars Insight Dashboard</div>
+      <div class="proj-desc">An interactive data dashboard that lets users explore car pricing trends, engine specs, and mileage data through dynamic filtering and visual charts.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Dashboard</span>
+        <span class="tag">Interactive</span>
+        <span class="tag">Data Viz</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/CarsInsightDashboard" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+  </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2026 Trung Nguyen. Built with precision.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
