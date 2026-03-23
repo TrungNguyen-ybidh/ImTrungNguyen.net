@@ -25,7 +25,6 @@ portfolio/
 
 - **Terminal-style homepage** — Python code block with typing animation, shell-style navigation
 - **Constellation particle background** — 150+ twinkling stars, shooting stars, dust particles, and constellation patterns
-- **Dark / Light theme** — toggle switch with localStorage persistence across all pages
 - **Interactive education page** — clickable dropdowns for coursework and self-education subcards (Books, Codecademy, Coursera, edX)
 - **Project categories** — relevant projects always visible, other projects in a collapsible dropdown
 - **Experience timeline** — vertical timeline with accent dots and date labels
