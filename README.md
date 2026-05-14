@@ -14,10 +14,13 @@ portfolio/
 ├── projects.html       # GitHub projects (relevant + others)
 ├── certificates.html   # Certificates with PDF links
 ├── contact.html        # Contact info + code block
-├── style.css           # All shared styles
-├── script.js           # Particle system + theme toggle
-├── certs/              # Certificate PDFs
-│   └── codecademy-python-ds.pdf
+├── assets/
+│   ├── css/style.css   # All shared styles
+│   ├── js/script.js    # Particle system + scroll reveal
+│   ├── img/favicon.svg
+│   ├── docs/resume.pdf # Resume linked from contact page
+│   └── certs/          # Certificate PDFs
+├── CNAME               # Custom domain for GitHub Pages
 └── README.md
 ```
 
@@ -53,7 +56,7 @@ Or simply open `index.html` in any browser.
 - **Content** — edit the HTML files directly to update text, links, and courses
 - **Colors** — modify CSS variables in `:root` at the top of `style.css`
 - **Particles** — adjust counts, speeds, and colors in `script.js`
-- **Certificates** — drop PDFs into the `certs/` folder and update `href` links
+- **Certificates** — drop PDFs into `assets/certs/` and update `href` links
 - **Theme** — light theme colors are in `[data-theme="light"]` blocks in `style.css`
 
 ## Author

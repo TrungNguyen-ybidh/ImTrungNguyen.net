@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <title>Certificates — Trung Nguyen</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
@@ -18,6 +19,13 @@
 <canvas id="particleCanvas"></canvas>
 <div class="scanlines"></div>
 <div class="vignette"></div>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <div class="theme-toggle-thumb">
+    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </div>
+</button>
 
 <!-- Navbar -->
 <nav class="top-nav">
@@ -45,7 +53,7 @@
         <div class="cert-issuer">Bloomberg for Education · April 2026</div>
       </div>
       <div class="cert-links">
-        <a href="certs\bmc_certification.pdf" target="_blank" class="edu-view-cert" onclick="event.stopPropagation()">View Certificate →</a>
+        <a href="assets/certs/bmc_certification.pdf" target="_blank" class="edu-view-cert" onclick="event.stopPropagation()">View Certificate →</a>
           <a href="https://portal.bloombergforeducation.com/certificates/ZAcBZwLtCKCc1DnDzWX7Ydwz" target="_blank" class="cert-verify-link" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Verify</a>
       </div>
     </div>
@@ -56,8 +64,19 @@
         <div class="cert-issuer">University of Zurich · March 2026</div>
       </div>
       <div class="cert-links">
-        <a href="certs\Coursera ORXLT15YBMMF.pdf" target="_blank" class="edu-view-cert" onclick="event.stopPropagation()">View Certificate →</a>
+        <a href="assets/certs/Coursera ORXLT15YBMMF.pdf" target="_blank" class="edu-view-cert" onclick="event.stopPropagation()">View Certificate →</a>
         <a href="https://coursera.org/verify/ORXLT15YBMMF" target="_blank" class="cert-verify-link" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Verify</a>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-icon"><svg viewBox="0 0 24 24"><path d="M12 15l-2 5 2-1 2 1-2-5z"/><circle cx="12" cy="9" r="6"/></svg></div>
+      <div class="cert-info">
+        <div class="cert-name">Supervised Machine Learning: Regression and Classification</div>
+        <div class="cert-issuer">DeepLearning.AI &amp; Stanford Online · May 2026</div>
+      </div>
+      <div class="cert-links">
+        <a href="assets/certs/Coursera KULM1AXVC2C2.pdf" target="_blank" class="edu-view-cert" onclick="event.stopPropagation()">View Certificate →</a>
+        <a href="https://coursera.org/verify/KULM1AXVC2C2" target="_blank" class="cert-verify-link" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" width="13" height="13"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Verify</a>
       </div>
     </div>
   </div>
@@ -67,6 +86,6 @@
   <p>© 2026 Trung Nguyen. Built with precision.</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>

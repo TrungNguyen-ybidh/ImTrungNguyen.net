@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <title>Projects — Trung Nguyen</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
@@ -18,6 +19,13 @@
 <canvas id="particleCanvas"></canvas>
 <div class="scanlines"></div>
 <div class="vignette"></div>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <div class="theme-toggle-thumb">
+    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </div>
+</button>
 
 <!-- Navbar -->
 <nav class="top-nav">
@@ -40,15 +48,27 @@
   <h3 class="projects-section-label reveal">Relevant Projects</h3>
   <div class="projects-grid">
     <div class="proj-card reveal">
-      <div class="proj-num">TRADING MODEL v1.0</div>
-      <div class="proj-title">Quant Trading Model V1.0</div>
-      <div class="proj-desc">The foundational version where it all started — a first-principles approach to building a quantitative trading strategy with basic signal logic and simulation.</div>
+      <div class="proj-num">QUANT DATA INFRA</div>
+      <div class="proj-title">QuantFinance-Databases</div>
+      <div class="proj-desc">A systematic data warehouse for quantitative research — aggregates US equity fundamentals, market data, and macro indicators from FMP, SEC EDGAR, Polygon, yfinance, and FRED into a Dockerized MySQL store.</div>
       <div class="proj-tags">
         <span class="tag">Python</span>
-        <span class="tag">Trading</span>
-        <span class="tag">Simulation</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">Docker</span>
+        <span class="tag">ETL</span>
       </div>
-      <a href="https://github.com/TrungNguyen-ybidh/Quant-trading-model_v1.0" target="_blank" class="proj-link">View on GitHub →</a>
+      <a href="https://github.com/TrungNguyen-ybidh/QuantFinance-Databases" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-num">BACKTEST ENGINE</div>
+      <div class="proj-title">backtest_engine</div>
+      <div class="proj-desc">Engine for running quant strategies against historical data — signal evaluation, position sizing, and performance metrics in one reusable framework.</div>
+      <div class="proj-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Backtesting</span>
+        <span class="tag">Quant</span>
+      </div>
+      <a href="https://github.com/TrungNguyen-ybidh/backtest_engine" target="_blank" class="proj-link">View on GitHub →</a>
     </div>
   </div>
 
@@ -119,6 +139,6 @@
   <p>© 2026 Trung Nguyen. Built with precision.</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>
