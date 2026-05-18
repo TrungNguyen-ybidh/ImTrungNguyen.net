@@ -5,27 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <title>Projects — Trung Nguyen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<!-- Background -->
-<div class="bg-blob bg-blob-1"></div>
-<div class="bg-blob bg-blob-2"></div>
-<div class="bg-blob bg-blob-3"></div>
-<div class="bg-blob bg-blob-4"></div>
 <canvas id="particleCanvas"></canvas>
-<div class="scanlines"></div>
-<div class="vignette"></div>
-
-<!-- Theme toggle -->
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-  <div class="theme-toggle-thumb">
-    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-  </div>
-</button>
+<div class="grain"></div>
+<div class="scroll-rail"><div class="scroll-rail-fill"></div></div>
 
 <!-- Navbar -->
 <nav class="top-nav">
@@ -43,32 +33,39 @@
 <!-- Content -->
 <main class="page-content">
   <div class="section-tag reveal">04 — Projects</div>
-  <h2 class="section-title reveal">Things I've built</h2>
+  <h2 class="section-title reveal">Things I've <em>built</em></h2>
 
-  <h3 class="projects-section-label reveal">Relevant Projects</h3>
+  <h3 class="projects-section-label reveal">Quant Research &amp; Infrastructure</h3>
   <div class="projects-grid">
     <div class="proj-card reveal">
-      <div class="proj-num">QUANT DATA INFRA</div>
+      <div class="proj-num">DATA INFRASTRUCTURE</div>
       <div class="proj-title">QuantFinance-Databases</div>
-      <div class="proj-desc">A systematic data warehouse for quantitative research — aggregates US equity fundamentals, market data, and macro indicators from FMP, SEC EDGAR, Polygon, yfinance, and FRED into a Dockerized MySQL store.</div>
+      <div class="proj-desc">A systematic data warehouse for quantitative research — aggregates US equity fundamentals, market data, and macro indicators from FMP, SEC EDGAR, Polygon, yfinance, and FRED into a Dockerized MySQL store with reproducible ETL.</div>
       <div class="proj-tags">
         <span class="tag">Python</span>
         <span class="tag">MySQL</span>
         <span class="tag">Docker</span>
         <span class="tag">ETL</span>
       </div>
-      <a href="https://github.com/TrungNguyen-ybidh/QuantFinance-Databases" target="_blank" class="proj-link">View on GitHub →</a>
+      <div class="proj-links">
+        <a href="projects/quant-databases.html" class="proj-link primary">Read case study →</a>
+        <a href="https://github.com/TrungNguyen-ybidh/QuantFinance-Databases" target="_blank" rel="noopener" class="proj-link">GitHub ↗</a>
+      </div>
     </div>
     <div class="proj-card reveal">
       <div class="proj-num">BACKTEST ENGINE</div>
       <div class="proj-title">backtest_engine</div>
-      <div class="proj-desc">Engine for running quant strategies against historical data — signal evaluation, position sizing, and performance metrics in one reusable framework.</div>
+      <div class="proj-desc">Engine for running quant strategies against historical data — signal evaluation, vector-friendly position sizing, transaction-cost modeling, and a metrics layer (Sharpe, drawdown, hit rate) in one reusable framework.</div>
       <div class="proj-tags">
         <span class="tag">Python</span>
         <span class="tag">Backtesting</span>
-        <span class="tag">Quant</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">Pandas</span>
       </div>
-      <a href="https://github.com/TrungNguyen-ybidh/backtest_engine" target="_blank" class="proj-link">View on GitHub →</a>
+      <div class="proj-links">
+        <a href="projects/backtest-engine.html" class="proj-link primary">Read case study →</a>
+        <a href="https://github.com/TrungNguyen-ybidh/backtest_engine" target="_blank" rel="noopener" class="proj-link">GitHub ↗</a>
+      </div>
     </div>
   </div>
 

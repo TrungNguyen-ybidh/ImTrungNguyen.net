@@ -5,27 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
   <title>About — Trung Nguyen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<!-- Background -->
-<div class="bg-blob bg-blob-1"></div>
-<div class="bg-blob bg-blob-2"></div>
-<div class="bg-blob bg-blob-3"></div>
-<div class="bg-blob bg-blob-4"></div>
 <canvas id="particleCanvas"></canvas>
-<div class="scanlines"></div>
-<div class="vignette"></div>
-
-<!-- Theme toggle -->
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-  <div class="theme-toggle-thumb">
-    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-  </div>
-</button>
+<div class="grain"></div>
+<div class="scroll-rail"><div class="scroll-rail-fill"></div></div>
 
 <!-- Navbar -->
 <nav class="top-nav">
@@ -43,12 +33,12 @@
 <!-- Content -->
 <main class="page-content">
   <div class="section-tag reveal">01 — About</div>
-  <h2 class="section-title reveal">Building at the intersection<br>of data & decisions</h2>
+  <h2 class="section-title reveal">Building at the intersection<br>of <em>data</em> &amp; decisions</h2>
 
   <div class="about-content">
     <div class="about-text">
       <p class="reveal">I'm a data science student at <em>Northeastern University</em> with a strong curiosity about how financial markets actually work. Most of my time is spent studying probability, statistics, and building systems that turn raw data into useful insights.</p>
-      <p class="reveal">My goal is to work in <em>Financial Engineer</em> field, where mathematics, programming, and market understanding come together to solve complex problems and make better decisions.</p>
+      <p class="reveal">My goal is to work in <em>quantitative finance</em>, where mathematics, programming, and market understanding come together to solve complex problems and make better decisions.</p>
       <p class="reveal">I believe in <em>identity-based habits</em>. Progress comes from becoming the kind of person who shows up and does the work every day. Practicing math, writing code, and studying data aren’t tasks on a checklist. They’re part of how I learn and grow.</p>
     </div>
     <div class="about-stats reveal">

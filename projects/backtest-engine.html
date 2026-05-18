@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <title>backtest_engine — Case Study · Trung Nguyen</title>
+  <meta name="description" content="A reusable Python framework for running systematic strategies against historical data. Signal evaluation, position sizing, transaction costs, and a metrics layer in one place.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .cs-wrap { position: relative; z-index: 2; max-width: 1080px; margin: 0 auto; padding: 7rem 3rem 5rem; }
+    .cs-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 2.5rem; transition: color 0.25s var(--ease-out), transform 0.25s var(--ease-out); }
+    .cs-back:hover { color: var(--accent); transform: translateX(-3px); }
+    .cs-hero { border-bottom: 1px solid var(--rule); padding-bottom: 2.4rem; margin-bottom: 3rem; }
+    .cs-eyebrow { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.9rem; display: inline-flex; align-items: center; gap: 0.6rem; }
+    .cs-eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); }
+    .cs-title { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 400; line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 1.1rem; color: var(--text-primary); }
+    .cs-title em { font-style: italic; color: var(--accent); }
+    .cs-subtitle { font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--text-secondary); max-width: 65ch; line-height: 1.5; margin-bottom: 1.8rem; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 1.2rem 2rem; font-family: var(--mono); font-size: 0.74rem; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 1.6rem; }
+    .cs-meta b { color: var(--text-primary); font-weight: 500; font-family: var(--sans); font-size: 1.05em; }
+    .cs-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+    .cs-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.2rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 4px; border: 1px solid var(--border-strong); color: var(--text-primary); transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out), background 0.3s var(--ease-out); }
+    .cs-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .cs-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cs-btn.primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); color: #fff; }
+    .cs-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .cs-section { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; padding: 3rem 0; border-bottom: 1px solid var(--rule); }
+    .cs-section:last-child { border-bottom: none; }
+    .cs-section-num { font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.14em; text-transform: uppercase; padding-top: 0.55rem; }
+    .cs-section-num strong { display: block; color: var(--accent); font-family: var(--serif); font-size: 1.6rem; font-style: italic; font-weight: 400; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+    .cs-section-body h2 { font-family: var(--serif); font-size: 1.9rem; font-weight: 400; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 1.4rem; color: var(--text-primary); }
+    .cs-section-body p { color: var(--text-secondary); font-size: 1rem; line-height: 1.85; margin-bottom: 1.1rem; max-width: 68ch; }
+    .cs-section-body strong { color: var(--text-primary); font-weight: 500; }
+    .cs-section-body code { font-family: var(--mono); font-size: 0.88em; color: var(--accent); padding: 0.1em 0.35em; background: var(--accent-glow); border-radius: 3px; }
+    .cs-section-body ul { list-style: none; padding: 0; margin: 0 0 1.2rem; }
+    .cs-section-body ul li { position: relative; padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.98rem; line-height: 1.7; margin-bottom: 0.8rem; }
+    .cs-section-body ul li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+    .cs-arch { font-family: var(--mono); font-size: 0.74rem; color: var(--text-secondary); background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; padding: 1.4rem 1.6rem; white-space: pre; overflow-x: auto; line-height: 1.55; margin: 1.4rem 0 1.6rem; }
+    .cs-codeblock { font-family: var(--mono); font-size: 0.78rem; line-height: 1.7; color: var(--text-secondary); background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; padding: 1.2rem 1.4rem; white-space: pre; overflow-x: auto; margin: 1rem 0 1.4rem; }
+    .cs-codeblock .k { color: var(--accent); }
+    .cs-codeblock .s { color: var(--accent-soft); }
+    .cs-codeblock .c { color: var(--text-muted); font-style: italic; }
+    .cs-codeblock .n { color: #C9A65A; }
+    .cs-codeblock .f { color: #6F9DD0; }
+    [data-theme="light"] .cs-codeblock .f { color: #295E94; }
+    [data-theme="light"] .cs-codeblock .n { color: #8C6A1F; }
+    .cs-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.4rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .cs-table th { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--rule); }
+    .cs-table td { padding: 0.85rem 0.9rem; border-bottom: 1px solid var(--rule); font-size: 0.92rem; color: var(--text-secondary); line-height: 1.55; vertical-align: top; }
+    .cs-table tr:last-child td { border-bottom: none; }
+    .cs-table td:first-child { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); letter-spacing: 0.02em; white-space: nowrap; }
+    .cs-tradeoff { border-left: 2px solid var(--accent); padding: 0.2rem 0 0.2rem 1.2rem; margin: 0.4rem 0 1.4rem; }
+    .cs-tradeoff h4 { font-family: var(--sans); font-size: 0.92rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.3rem; letter-spacing: -0.005em; }
+    .cs-tradeoff p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.4rem; }
+    .cs-tradeoff em { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); font-style: normal; display: inline-block; margin-right: 0.4rem; }
+    .cs-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); margin: 1rem 0 1.4rem; }
+    .cs-metric { padding: 1.2rem 1rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .cs-metric-num { font-family: var(--serif); font-style: italic; font-size: 1.9rem; color: var(--accent); line-height: 1; }
+    .cs-metric-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; }
+    .cs-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin: 1rem 0 1.4rem; }
+    .cs-shot { aspect-ratio: 16 / 10; background: repeating-linear-gradient(45deg, var(--bg-elev) 0 6px, var(--bg-soft) 6px 12px); border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; text-align: center; padding: 1rem; }
+    .cs-todo { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; padding: 0.18rem 0.55rem; color: #D08F47; background: rgba(208, 143, 71, 0.10); border: 1px dashed rgba(208, 143, 71, 0.45); border-radius: 3px; }
+    [data-theme="light"] .cs-todo { color: #9A5B14; background: rgba(154, 91, 20, 0.07); border-color: rgba(154, 91, 20, 0.45); }
+    @media (max-width: 800px) {
+      .cs-wrap { padding: 5.5rem 1.4rem 3rem; }
+      .cs-section { grid-template-columns: 1fr; gap: 1.4rem; padding: 2.2rem 0; }
+      .cs-section-num { padding-top: 0; }
+      .cs-shots { grid-template-columns: 1fr; }
+      .cs-metrics { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+<div class="grain"></div>
+<div class="scroll-rail"><div class="scroll-rail-fill"></div></div>
+
+<nav class="top-nav">
+  <a href="../index.html" class="top-nav-logo">Trung<span>.</span>N</a>
+  <div class="top-nav-links">
+    <a href="../about.html">About</a>
+    <a href="../experience.html">Experience</a>
+    <a href="../education.html">Education</a>
+    <a href="../projects.html" class="active">Projects</a>
+    <a href="../certificates.html">Certificates</a>
+    <a href="../contact.html">Contact</a>
+  </div>
+</nav>
+
+<main class="cs-wrap">
+
+  <a href="../projects.html" class="cs-back">← All projects</a>
+
+  <header class="cs-hero">
+    <div class="cs-eyebrow">Case Study · Backtesting Framework</div>
+    <h1 class="cs-title">backtest_<em>engine</em></h1>
+    <p class="cs-subtitle">A reusable Python framework for evaluating systematic strategies — signal evaluation, vector-friendly sizing, transaction-cost modeling, and a metrics layer built around honest accounting of look-ahead and slippage.</p>
+    <div class="cs-meta">
+      <span><b>Status</b> · Active</span>
+      <span><b>Year</b> · 2025–present</span>
+      <span><b>Stack</b> · Python · NumPy · pandas · matplotlib</span>
+      <span><b>Tested on</b> · US equities EOD</span>
+    </div>
+    <div class="cs-actions">
+      <a href="https://github.com/TrungNguyen-ybidh/backtest_engine" target="_blank" rel="noopener" class="cs-btn primary">
+        View on GitHub
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a href="../projects.html" class="cs-btn">All projects</a>
+    </div>
+  </header>
+
+  <!-- 01 Problem -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>01</strong> Problem</div>
+    <div class="cs-section-body">
+      <h2>Most ad-hoc backtests lie — and the ways they lie are well-known</h2>
+      <p>Look-ahead bias. Survivorship bias. Frictionless fills. Sharpe ratios that don't survive a 5 bps transaction cost. Every quant researcher writes the same scaffolding from scratch and gets the same things wrong in subtly different ways.</p>
+      <p>This engine is the answer to <em>"can I trust this PnL?"</em> — a single framework where the inputs (prices, signals, costs) are well-typed, the accounting is auditable, and the failure modes are explicit. If a backtest passes here, I can stand behind the number.</p>
+    </div>
+  </section>
+
+  <!-- 02 Architecture -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>02</strong> Architecture</div>
+    <div class="cs-section-body">
+      <h2>Strategy in, metrics out — with every transformation auditable</h2>
+<pre class="cs-arch">┌──────────────────────────────────────────────────────────────┐
+│                      INPUTS                                  │
+│   prices: DataFrame[date × ticker]    (adjusted close)       │
+│   signals: DataFrame[date × ticker]   (model output)         │
+│   universe: Set[ticker] per date      (point-in-time)        │
+│   cost_model: CostModel                                      │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+                   ┌────────────────────┐
+                   │  align &amp; lag       │   t+1 fills, no peek
+                   └────────┬───────────┘
+                            ▼
+                   ┌────────────────────┐
+                   │ position sizing    │   vol-target / rank / fixed
+                   └────────┬───────────┘
+                            ▼
+                   ┌────────────────────┐
+                   │ apply costs        │   commission + slippage
+                   └────────┬───────────┘
+                            ▼
+                   ┌────────────────────┐
+                   │ PnL accumulator    │   gross, net, by sleeve
+                   └────────┬───────────┘
+                            ▼
+                   ┌────────────────────┐
+                   │ metrics &amp; reports  │   Sharpe / DD / hit / turnover
+                   └────────────────────┘</pre>
+      <p>The contract is small: <strong>signals come in lagged, exits come out audited</strong>. Each stage in the pipeline is a pure function over DataFrames, which makes it trivial to swap a sizing rule or cost model without touching the rest.</p>
+
+<div class="cs-codeblock"><span class="c"># minimal usage</span>
+<span class="k">from</span> backtest_engine <span class="k">import</span> <span class="f">Backtest</span>, <span class="f">VolTargetSizer</span>, <span class="f">LinearCosts</span>
+
+bt = <span class="f">Backtest</span>(
+    prices=prices,
+    signals=momentum_zscore,
+    sizer=<span class="f">VolTargetSizer</span>(target=<span class="n">0.10</span>, lookback=<span class="n">63</span>),
+    costs=<span class="f">LinearCosts</span>(commission_bps=<span class="n">1.0</span>, slippage_bps=<span class="n">5.0</span>),
+    rebalance=<span class="s">"W-FRI"</span>,
+)
+
+result = bt.<span class="f">run</span>()
+<span class="f">print</span>(result.metrics)   <span class="c"># Sharpe, Sortino, max DD, turnover, hit rate</span>
+result.<span class="f">plot</span>()             <span class="c"># equity curve + drawdown + exposure</span></div>
+    </div>
+  </section>
+
+  <!-- 03 Data sources -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>03</strong> Data sources</div>
+    <div class="cs-section-body">
+      <h2>The engine doesn't fetch data — it consumes it</h2>
+      <p>By design, ingestion is somebody else's problem (see the <a href="quant-databases.html" style="color: var(--accent); text-decoration: underline;">QuantFinance-Databases</a> case study). The engine accepts:</p>
+      <table class="cs-table">
+        <thead><tr><th>Input</th><th>Shape</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Prices</td><td>DataFrame[date × ticker]</td><td>Total-return adjusted close. Daily by default.</td></tr>
+          <tr><td>Signals</td><td>DataFrame[date × ticker]</td><td>Float, any unit — sizer handles normalization.</td></tr>
+          <tr><td>Universe</td><td>Series[date] → Set[ticker]</td><td>Point-in-time index membership to avoid survivorship.</td></tr>
+          <tr><td>Cost model</td><td>CostModel object</td><td>Pluggable; defaults to linear bps. Square-root impact supported.</td></tr>
+        </tbody>
+      </table>
+      <p>This separation means the same engine can be pointed at a different vendor or asset class with zero changes.</p>
+    </div>
+  </section>
+
+  <!-- 04 Design choices -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>04</strong> Design choices</div>
+    <div class="cs-section-body">
+      <h2>The decisions that make or break a backtest</h2>
+
+      <div class="cs-tradeoff">
+        <h4>Mandatory signal lag at the boundary</h4>
+        <p><em>Why</em> Look-ahead is the #1 way backtests lie. The engine refuses to consume an unlagged signal — <code>bt.run()</code> raises if <code>signals.index[-1] &gt;= prices.index[-1]</code>. <em>Cost</em> Slightly more verbose user code; worth it.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Vectorized over event-driven</h4>
+        <p><em>Why</em> EOD strategies don't need event-driven simulation. Vectorized pandas is 100× faster and the bookkeeping is easier to audit. <em>Cost</em> Limit orders and intra-bar fills aren't modeled — fine for the asset class this targets.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Costs are a separate object, not a flag</h4>
+        <p><em>Why</em> Linear bps is a placeholder. Real research needs square-root impact, fixed commission tiers, and borrow costs. Each is its own class implementing <code>CostModel</code> — composition over a config dict.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Point-in-time universe is required</h4>
+        <p><em>Why</em> Backtesting a strategy on today's S&amp;P 500 constituents back to 2010 is a survivorship lie. The engine takes a universe-as-of function and enforces it. <em>Cost</em> Need to source historical index membership; well worth the friction.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Metrics are reported with confidence intervals</h4>
+        <p><em>Why</em> Sharpe 1.5 over five years vs. five months is a different story. The engine bootstraps a CI around every reported metric so I know when a result is small-sample noise. <span class="cs-todo">TODO: confirm CI defaults match repo</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Tests -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>05</strong> Tests</div>
+    <div class="cs-section-body">
+      <h2>If the engine is wrong, every result downstream is wrong</h2>
+      <ul>
+        <li><strong>No look-ahead.</strong> A test feeds a signal that perfectly predicts t+1 returns and asserts the engine fails or returns a reasonable Sharpe — not an infinite one.</li>
+        <li><strong>Cost monotonicity.</strong> Increasing commission bps must produce a monotonically lower net Sharpe; tested across a grid.</li>
+        <li><strong>Cash invariant.</strong> Sum of position PnL each day equals the gross PnL series to 1e-9 — closes off any silent accounting drift.</li>
+        <li><strong>Turnover sanity.</strong> A constant-signal strategy has turnover near zero; an alternating-signal strategy has turnover near 2× notional.</li>
+        <li><strong>Bootstrap stability.</strong> Re-running the bootstrap with a fixed seed yields identical confidence intervals.</li>
+        <li><span class="cs-todo">TODO: add hypothesis-based property tests for edge cases (zero-vol asset, all-zero signal, etc.)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 Results -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>06</strong> Results</div>
+    <div class="cs-section-body">
+      <h2>Sample strategy run — momentum, US equities</h2>
+      <p>The numbers below are illustrative of what the engine produces; specific values depend on the universe and date range chosen.</p>
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Net Sharpe (5y)</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Max drawdown</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Annual turnover</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Hit rate</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Run time (10y EOD)</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Cost as % of gross</div>
+        </div>
+      </div>
+      <p>The point of the engine is that those numbers come from <strong>one place</strong>, with <strong>one accounting</strong>, and the same code is what would gate a strategy from research into a paper-trade.</p>
+    </div>
+  </section>
+
+  <!-- 07 Screenshots -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>07</strong> Screenshots</div>
+    <div class="cs-section-body">
+      <h2>Equity curve, drawdown, exposure</h2>
+      <p><span class="cs-todo">TODO: export matplotlib runs to PNG, drop into <code>../assets/img/backtest-engine/</code>, replace placeholders below.</span></p>
+      <div class="cs-shots">
+        <div class="cs-shot">Equity curve<br>(placeholder)</div>
+        <div class="cs-shot">Drawdown waterfall<br>(placeholder)</div>
+        <div class="cs-shot">Rolling Sharpe<br>(placeholder)</div>
+        <div class="cs-shot">Exposure heatmap<br>(placeholder)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 Limitations -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>08</strong> Limitations</div>
+    <div class="cs-section-body">
+      <h2>What I'd want a reviewer to know</h2>
+      <ul>
+        <li><strong>EOD only.</strong> Intra-bar microstructure isn't modeled — this is a research tool for daily strategies, not an HFT simulator.</li>
+        <li><strong>No live execution path.</strong> The engine simulates fills; it does not connect to a broker.</li>
+        <li><strong>Costs are assumptions, not measurements.</strong> Linear bps is a starting point. For a real strategy, calibrate against measured fills.</li>
+        <li><strong>Borrow / shorting costs default to zero.</strong> Long-short strategies need a non-default cost model to be honest about financing.</li>
+        <li><strong>Single-currency.</strong> No FX P&amp;L accounting for cross-listed names.</li>
+        <li><strong>Bootstrapped CIs assume IID returns.</strong> Block bootstrap is a TODO for serial correlation.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>© 2026 Trung Nguyen · Boston, MA</p>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <title>QuantFinance-Databases — Case Study · Trung Nguyen</title>
+  <meta name="description" content="A systematic data warehouse for quantitative research. Aggregates fundamentals, market data, and macro indicators into a Dockerized MySQL store with reproducible ETL.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    /* ===== CASE STUDY LAYOUT ===== */
+    .cs-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 7rem 3rem 5rem;
+    }
+
+    .cs-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 2.5rem;
+      transition: color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+    }
+    .cs-back:hover { color: var(--accent); transform: translateX(-3px); }
+
+    .cs-hero {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2.4rem;
+      margin-bottom: 3rem;
+    }
+    .cs-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .cs-eyebrow::before {
+      content: "";
+      width: 22px; height: 1px;
+      background: var(--accent);
+    }
+    .cs-title {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.1rem;
+      color: var(--text-primary);
+    }
+    .cs-title em { font-style: italic; color: var(--accent); }
+
+    .cs-subtitle {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.35rem;
+      color: var(--text-secondary);
+      max-width: 65ch;
+      line-height: 1.5;
+      margin-bottom: 1.8rem;
+    }
+
+    .cs-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 1.6rem;
+    }
+    .cs-meta b { color: var(--text-primary); font-weight: 500; font-family: var(--sans); font-size: 1.05em; }
+
+    .cs-actions {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .cs-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+    }
+    .cs-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .cs-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cs-btn.primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); color: #fff; }
+    .cs-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Section */
+    .cs-section {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .cs-section:last-child { border-bottom: none; }
+    .cs-section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding-top: 0.55rem;
+    }
+    .cs-section-num strong {
+      display: block;
+      color: var(--accent);
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-style: italic;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    .cs-section-body h2 {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      font-weight: 400;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      margin-bottom: 1.4rem;
+      color: var(--text-primary);
+    }
+    .cs-section-body p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 1.1rem;
+      max-width: 68ch;
+    }
+    .cs-section-body strong { color: var(--text-primary); font-weight: 500; }
+    .cs-section-body code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      color: var(--accent);
+      padding: 0.1em 0.35em;
+      background: var(--accent-glow);
+      border-radius: 3px;
+    }
+    .cs-section-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.2rem;
+    }
+    .cs-section-body ul li {
+      position: relative;
+      padding-left: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      line-height: 1.7;
+      margin-bottom: 0.8rem;
+    }
+    .cs-section-body ul li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ASCII architecture */
+    .cs-arch {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.4rem 1.6rem;
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.55;
+      margin: 1.4rem 0 1.6rem;
+    }
+
+    /* Data table */
+    .cs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.4rem;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .cs-table th {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .cs-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .cs-table tr:last-child td { border-bottom: none; }
+    .cs-table td:first-child {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    /* Trade-off card */
+    .cs-tradeoff {
+      border-left: 2px solid var(--accent);
+      padding: 0.2rem 0 0.2rem 1.2rem;
+      margin: 0.4rem 0 1.4rem;
+    }
+    .cs-tradeoff h4 {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.005em;
+    }
+    .cs-tradeoff p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+    }
+    .cs-tradeoff em {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-style: normal;
+      display: inline-block;
+      margin-right: 0.4rem;
+    }
+
+    /* Metric grid */
+    .cs-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--rule);
+      border-left: 1px solid var(--rule);
+      margin: 1rem 0 1.4rem;
+    }
+    .cs-metric {
+      padding: 1.2rem 1rem;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .cs-metric-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.9rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .cs-metric-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+    }
+
+    /* Placeholder image / screenshot */
+    .cs-shots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      margin: 1rem 0 1.4rem;
+    }
+    .cs-shot {
+      aspect-ratio: 16 / 10;
+      background:
+        repeating-linear-gradient(45deg, var(--bg-elev) 0 6px, var(--bg-soft) 6px 12px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* TODO marker — clear visual cue this needs Trung's data */
+    .cs-todo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      padding: 0.18rem 0.55rem;
+      color: #D08F47;
+      background: rgba(208, 143, 71, 0.10);
+      border: 1px dashed rgba(208, 143, 71, 0.45);
+      border-radius: 3px;
+    }
+    [data-theme="light"] .cs-todo {
+      color: #9A5B14;
+      background: rgba(154, 91, 20, 0.07);
+      border-color: rgba(154, 91, 20, 0.45);
+    }
+
+    @media (max-width: 800px) {
+      .cs-wrap { padding: 5.5rem 1.4rem 3rem; }
+      .cs-section { grid-template-columns: 1fr; gap: 1.4rem; padding: 2.2rem 0; }
+      .cs-section-num { padding-top: 0; }
+      .cs-shots { grid-template-columns: 1fr; }
+      .cs-metrics { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+<div class="grain"></div>
+<div class="scroll-rail"><div class="scroll-rail-fill"></div></div>
+
+<nav class="top-nav">
+  <a href="../index.html" class="top-nav-logo">Trung<span>.</span>N</a>
+  <div class="top-nav-links">
+    <a href="../about.html">About</a>
+    <a href="../experience.html">Experience</a>
+    <a href="../education.html">Education</a>
+    <a href="../projects.html" class="active">Projects</a>
+    <a href="../certificates.html">Certificates</a>
+    <a href="../contact.html">Contact</a>
+  </div>
+</nav>
+
+<main class="cs-wrap">
+
+  <a href="../projects.html" class="cs-back">← All projects</a>
+
+  <header class="cs-hero">
+    <div class="cs-eyebrow">Case Study · Data Infrastructure</div>
+    <h1 class="cs-title">QuantFinance-<em>Databases</em></h1>
+    <p class="cs-subtitle">A reproducible data warehouse for quantitative research — fundamentals, prices, and macro indicators in one Dockerized MySQL store, populated by idempotent ETL jobs.</p>
+    <div class="cs-meta">
+      <span><b>Status</b> · Active</span>
+      <span><b>Year</b> · 2025–present</span>
+      <span><b>Stack</b> · Python · MySQL · Docker · pandas · SQLAlchemy</span>
+      <span><b>Sources</b> · FMP · SEC EDGAR · Polygon · yfinance · FRED</span>
+    </div>
+    <div class="cs-actions">
+      <a href="https://github.com/TrungNguyen-ybidh/QuantFinance-Databases" target="_blank" rel="noopener" class="cs-btn primary">
+        View on GitHub
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a href="../projects.html" class="cs-btn">All projects</a>
+    </div>
+  </header>
+
+  <!-- 01 Problem -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>01</strong> Problem</div>
+    <div class="cs-section-body">
+      <h2>Quant research starts with clean, joinable data — and most public sources don't give you that</h2>
+      <p>Equity fundamentals live in SEC EDGAR. Daily prices live with one vendor. Macro indicators live with another. Each source ships its own ticker schemes, currencies, frequencies, and revision histories. Before any research can happen, all of it has to be normalized and made joinable on a primary key you can trust.</p>
+      <p>This project is the layer that lives <strong>between raw vendor APIs and downstream research</strong>: a single store I can query for any (ticker, date, field) tuple without re-thinking ingestion every time.</p>
+    </div>
+  </section>
+
+  <!-- 02 Architecture -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>02</strong> Architecture</div>
+    <div class="cs-section-body">
+      <h2>One MySQL store, many idempotent ETL jobs, all containerized</h2>
+      <p>The system is intentionally boring: a relational core, pure-function loaders, and Docker for reproducibility.</p>
+<pre class="cs-arch">┌──────────────────────────────────────────────────────────────┐
+│  Sources                                                     │
+│  FMP · SEC EDGAR · Polygon · yfinance · FRED                 │
+└────────────┬──────────────┬───────────────┬──────────────────┘
+             │              │               │
+       ┌─────▼──────┐ ┌─────▼──────┐ ┌──────▼────────┐
+       │ extractors │ │ extractors │ │  extractors   │  (Python, requests / SDKs)
+       └─────┬──────┘ └─────┬──────┘ └──────┬────────┘
+             │              │               │
+             └──────┬───────┴───────────────┘
+                    │
+              ┌─────▼──────┐
+              │ transforms │  pandas — typing, dedup,
+              │            │  currency &amp; period normalization
+              └─────┬──────┘
+                    │
+              ┌─────▼──────┐
+              │   loader   │  SQLAlchemy upsert
+              └─────┬──────┘
+                    │
+        ┌───────────▼────────────┐
+        │  MySQL  (Docker)       │
+        │   ─ securities         │   primary key registry
+        │   ─ prices_daily       │   OHLCV by (symbol, date)
+        │   ─ fundamentals       │   period-end financials
+        │   ─ macro_series       │   FRED time series
+        │   ─ corporate_actions  │   splits / dividends
+        └────────────────────────┘</pre>
+      <p>Loaders are idempotent — re-running a job for the same window updates existing rows instead of duplicating them. That makes recovery from a bad day of vendor data a one-command operation.</p>
+    </div>
+  </section>
+
+  <!-- 03 Data sources -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>03</strong> Data sources</div>
+    <div class="cs-section-body">
+      <h2>Each source has a single, well-defined responsibility</h2>
+      <p>Picking one source per concern keeps semantics clean — no ambiguity about which adjusted-close I'm reading or which FY end is canonical.</p>
+      <table class="cs-table">
+        <thead>
+          <tr><th>Source</th><th>Owns</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>FMP</td><td>Fundamentals, ratios, earnings</td><td>Wide coverage of US equities with consistent field naming.</td></tr>
+          <tr><td>SEC EDGAR</td><td>Raw filings, period ends</td><td>Ground truth for fiscal calendar and as-reported numbers.</td></tr>
+          <tr><td>Polygon</td><td>Intraday &amp; corporate actions</td><td>High-resolution prints and reliable split/dividend feed.</td></tr>
+          <tr><td>yfinance</td><td>Backfill EOD prices</td><td>Free, well-known, useful for sanity-checking Polygon EOD bars.</td></tr>
+          <tr><td>FRED</td><td>Macro time series</td><td>Authoritative, versioned, and updated on a predictable schedule.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 04 Design choices -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>04</strong> Design choices</div>
+    <div class="cs-section-body">
+      <h2>Trade-offs I'd defend in a review</h2>
+
+      <div class="cs-tradeoff">
+        <h4>MySQL over a time-series DB</h4>
+        <p><em>Why</em> Most of the workload is point-in-time joins between fundamentals and prices, not high-cardinality tick storage. Relational beats columnar here. <em>Cost</em> Worse for sub-second bar storage — but that's not what this layer is for.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Docker Compose for the whole stack</h4>
+        <p><em>Why</em> Anyone can clone the repo and run <code>docker compose up</code> to reproduce my schema exactly. No "works on my machine." <em>Cost</em> Slight overhead for new dev setup; worth it for reproducibility.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Idempotent upserts, not append-only</h4>
+        <p><em>Why</em> Vendor data gets revised. Append-only means I'd be carrying around stale prints. Upsert on <code>(symbol, date)</code> keeps the latest authoritative row. <em>Cost</em> No write-time audit trail by default — added a <code>revisions</code> log to recover that.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Centralized symbol registry</h4>
+        <p><em>Why</em> Every other table foreign-keys into <code>securities</code>. One place to handle CUSIP/CIK/ticker changes; downstream joins stay clean across corporate actions.</p>
+      </div>
+
+      <div class="cs-tradeoff">
+        <h4>Secrets via <code>.env</code> + <code>python-dotenv</code></h4>
+        <p><em>Why</em> No credentials in source. <span class="cs-todo">TODO: confirm <code>.env.example</code> is committed and <code>config/config.py</code> reads from <code>os.environ</code> only</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Tests -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>05</strong> Tests</div>
+    <div class="cs-section-body">
+      <h2>What gets verified before a load is trusted</h2>
+      <ul>
+        <li><strong>Schema contracts</strong> — every loader asserts dtype, non-null, and primary-key shape on its DataFrame before writing.</li>
+        <li><strong>Cross-source reconciliation</strong> — Polygon vs. yfinance EOD prices on a sampled tickers/dates set; flagged if any close diverges by &gt;0.5%.</li>
+        <li><strong>Point-in-time joins</strong> — a unit test loads a known earnings event and asserts the as-of join against prices_daily returns the expected fundamentals snapshot for the previous filing window (no look-ahead).</li>
+        <li><strong>Idempotency</strong> — running the same backfill twice produces identical row counts and identical row hashes.</li>
+        <li><span class="cs-todo">TODO: add coverage % once pytest-cov is wired in CI</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 Results -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>06</strong> Results</div>
+    <div class="cs-section-body">
+      <h2>What this unlocks downstream</h2>
+      <p>The point of this project isn't the database itself — it's the research velocity that comes from never having to wrangle vendors again.</p>
+      <div class="cs-metrics">
+        <div class="cs-metric">
+          <div class="cs-metric-num">5</div>
+          <div class="cs-metric-label">Data sources unified</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Tickers under coverage</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Years of history</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Rows in prices_daily</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num"><span class="cs-todo">TODO</span></div>
+          <div class="cs-metric-label">Avg backfill runtime</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-num">1</div>
+          <div class="cs-metric-label">Command to bootstrap</div>
+        </div>
+      </div>
+      <p>Once the warehouse exists, a research notebook becomes a SQL query plus a model — not three days of ingestion plumbing.</p>
+    </div>
+  </section>
+
+  <!-- 07 Screenshots -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>07</strong> Screenshots</div>
+    <div class="cs-section-body">
+      <h2>Schema, dashboards, and ETL output</h2>
+      <p><span class="cs-todo">TODO: drop PNG/JPG into <code>../assets/img/quant-databases/</code> and replace the four placeholders below.</span></p>
+      <div class="cs-shots">
+        <div class="cs-shot">DataGrip ERD<br>(placeholder)</div>
+        <div class="cs-shot">ETL CLI run output<br>(placeholder)</div>
+        <div class="cs-shot">Sample notebook query<br>(placeholder)</div>
+        <div class="cs-shot">docker compose ps<br>(placeholder)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 Limitations -->
+  <section class="cs-section reveal">
+    <div class="cs-section-num"><strong>08</strong> Limitations</div>
+    <div class="cs-section-body">
+      <h2>What this is — and what it isn't</h2>
+      <ul>
+        <li><strong>US equities only.</strong> No FX, futures, or international listings yet. Adding them means a serializer per asset class, not a schema rewrite.</li>
+        <li><strong>EOD-first.</strong> Intraday is stored but not the primary use case; sub-minute bars would need a different storage layout.</li>
+        <li><strong>Single node.</strong> Fine for a research workstation; not designed for multi-tenant production use.</li>
+        <li><strong>Vendor coupling.</strong> Schema field names track FMP's naming where convenient — a vendor swap means rewriting the relevant loader, not the warehouse.</li>
+        <li><strong>No streaming.</strong> Loads run on a cron, not on push. Live trading would require a separate path.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>© 2026 Trung Nguyen · Boston, MA</p>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>
